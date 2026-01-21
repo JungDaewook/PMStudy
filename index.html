@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정대욱 | 프로덕트 매니저</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --container-bg: #ffffff;
+            --header-bg: #2c3e50;
+            --header-text: #ffffff;
+            --h2-color: #34495e;
+            --h2-border: #3498db;
+            --item-border: #e0e0e0;
+            --quote-color: rgba(255, 255, 255, 0.9);
+            --skill-bg: #e0eafc;
+            --skill-text: #34495e;
+            --footer-bg: #ecf0f1;
+            --footer-text: #7f8c8d;
+            --btn-active-bg: #3498db;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --container-bg: #1e1e1e;
+            --header-bg: #1f2a38;
+            --header-text: #e0e0e0;
+            --h2-color: #8ab4f8;
+            --h2-border: #8ab4f8;
+            --item-border: #333;
+            --quote-color: rgba(224, 224, 224, 0.8);
+            --skill-bg: #3d4a5f;
+            --skill-text: #cdd6f4;
+            --footer-bg: #252525;
+            --footer-text: #888;
+            --btn-active-bg: #8ab4f8;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 40px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--header-text);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        header h1 { margin: 0; font-size: 2.5em; font-weight: 700; }
+        .typing-container { font-size: 1.2em; font-weight: 300; color: var(--quote-color); margin-top: 10px; height: 30px; }
+        .typing-cursor { animation: blink 0.7s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        
+        main { padding: 30px 40px; }
+
+        .section {
+            margin-bottom: 40px;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .section.visible { opacity: 1; transform: translateY(0); }
+        
+        h2 {
+            color: var(--h2-color);
+            border-bottom: 2px solid var(--h2-border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        /* 아코디언 스타일 */
+        .accordion-item { border-bottom: 1px solid var(--item-border); }
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            cursor: pointer;
+        }
+        .accordion-header h3 { margin: 0; font-size: 1.3em; color: var(--h2-color); }
+        .accordion-header .period { font-style: italic; color: #7f8c8d; font-size: 0.9em; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding-left: 15px;
+        }
+        .accordion-content p { font-size: 0.95em; }
+        .accordion-item.active .accordion-content { max-height: 500px; /* 충분히 큰 값 */ }
+        .accordion-icon { font-size: 1.5em; transition: transform 0.3s ease; }
+        .accordion-item.active .accordion-icon { transform: rotate(45deg); }
+
+        ul { list-style-type: none; padding-left: 0; }
+        ul li {
+            background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%233498db" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>') no-repeat left 5px;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+        
+        /* 필터 버튼 스타일 */
+        .filter-buttons { margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 10px; }
+        .filter-btn {
+            background: none;
+            border: 1px solid var(--h2-border);
+            color: var(--h2-border);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover { background-color: var(--h2-border); color: var(--container-bg); }
+        .filter-btn.active { background-color: var(--btn-active-bg); color: var(--header-text); border-color: var(--btn-active-bg); }
+
+        .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .skill-tag {
+            background-color: var(--skill-bg);
+            color: var(--skill-text);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 20px; font-size: 0.9em; }
+        
+        /* 테마 및 TOP 버튼 */
+        .theme-btn, #to-top-btn {
+            position: fixed;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .theme-btn { top: 20px; right: 20px; background: #fff; color: #2c3e50; }
+        body.dark-mode .theme-btn { background: #444; color: #fff; }
+        
+        #to-top-btn {
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--btn-active-bg);
+            color: var(--header-text);
+            opacity: 0;
+            visibility: hidden;
+        }
+        #to-top-btn.show { opacity: 1; visibility: visible; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button id="theme-toggle" class="theme-btn">🌙</button>
+        <header>
+            <img src="profile.png" alt="정대욱 증명사진">
+            <h1>정대욱</h1>
+            <div class="typing-container">
+                <span id="typing-text"></span><span class="typing-cursor">|</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="section">
+                <h2>소개</h2>
+                <p>프론트엔드 개발자 출신의 프로덕트 매니저입니다. 기록의 중요성을 알고, 다양한 사람들과의 협업과 소통을 통해 문제를 해결해 본 경험이 있습니다. 개발자로서의 경험을 바탕으로 기획뿐 아니라 개발, 배포에 대한 높은 이해도를 강점으로 삼고 있습니다.</p>
+            </section>
+            
+            <section class="section">
+                <h2>경력 (Experience)</h2>
+                
+                <!-- ▼▼▼ 필터 버튼 ▼▼▼ -->
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="nexon">Nexon</button>
+                    <button class="filter-btn" data-filter="project">Project</button>
+                    <button class="filter-btn" data-filter="intern">Intern</button>
+                </div>
+                
+                <!-- ▼▼▼ 아코디언 ▼▼▼ -->
+                <div id="accordion-container">
+                    <div class="accordion-item" data-category="nexon">
+                        <div class="accordion-header">
+                            <div>
+                                <h3>점검/배포 주도 및 서비스 운영</h3>
+                                <div class="period">Nexon Korea</div>
+                            </div>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>총 23회(MSW, 헬로메이플 등)의 배포를 메인 PM으로 이끌며, 스펙 취합부터 QA, 패치노트 작성, 배포까지 전 과정을 주도적으로 관리하였습니다. 또한 외부 협업 프로세스를 정립하며 오너십을 갖고 업무를 리딩했습니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item" data-category="nexon">
+                        <div class="accordion-header">
+                            <div>
+                                <h3>기민하고 정확한 이슈 대응</h3>
+                                <div class="period">Nexon Korea</div>
+                            </div>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>라이브 디버거 노출, 빌드 브랜치 오류 등 긴급 상황 발생 시 빠른 판단과 전파로 안정적인 대응을 이끌었으며, 불필요한 공수 낭비를 사전에 방지하는 성과를 냈습니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-category="project">
+                        <div class="accordion-header">
+                            <div>
+                                <h3>'싹쓰리' 앱 서비스 기획 (팀 리더)</h3>
+                                <div class="period">PM 부트캠프</div>
+                            </div>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>중고 물품 처리의 불편함이라는 문제를 정의하고, 와이어프레임, 디자인, 랜딩 페이지 제작, 사용성 테스트까지 프로덕트 기획의 전 과정을 리딩하며 최우수 프로젝트로 선정된 경험이 있습니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item" data-category="intern">
+                        <div class="accordion-header">
+                            <div>
+                                <h3>WEB3 서비스 1인 개발</h3>
+                                <div class="period">이큐비알홀딩스 (인턴)</div>
+                            </div>
+                             <span class="accordion-icon">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p>사용자의 그림을 NFT로 발행하는 'drawNFT' 서비스의 기획, 디자인, 개발 전과정을 1인으로 담당하였습니다. React, Javascript 기반의 프론트엔드 개발 역량을 쌓았습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>핵심 역량</h2>
+                <div class="skills-container">
+                    <span class="skill-tag">점검/배포</span>
+                    <span class="skill-tag">이슈 대응</span>
+                    <span class="skill-tag">프로젝트 관리</span>
+                    <span class="skill-tag">개발자 커뮤니케이션</span>
+                    <span class="skill-tag">기획/PM</span>
+                    <span class="skill-tag">문제 해결</span>
+                    <span class="skill-tag">리더십</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Javascript</span>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>본 페이지는 AI Vibe 스터디 과제용으로 제작되었습니다.</p>
+        </footer>
+    </div>
+
+    <!-- ▼▼▼ 맨 위로 가기 버튼 ▼▼▼ -->
+    <button id="to-top-btn">↑</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. 타이핑 효과 ---
+            const typingTextElement = document.getElementById('typing-text');
+            const texts = ["Product Manager", "Former Frontend Developer", "Proactive Problem Solver"];
+            let textIndex = 0;
+            let charIndex = 0;
+
+            function type() {
+                if (charIndex < texts[textIndex].length) {
+                    typingTextElement.textContent += texts[textIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, 100);
+                } else {
+                    setTimeout(erase, 2000);
+                }
+            }
+
+            function erase() {
+                if (charIndex > 0) {
+                    typingTextElement.textContent = texts[textIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, 50);
+                } else {
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(type, 500);
+                }
+            }
+            type();
+
+            // --- 2. 아코디언 ---
+            const accordionContainer = document.getElementById('accordion-container');
+            accordionContainer.addEventListener('click', function(e) {
+                const header = e.target.closest('.accordion-header');
+                if (!header) return;
+                
+                const item = header.parentElement;
+                item.classList.toggle('active');
+            });
+            
+            // --- 3. 필터링 ---
+            const filterButtonsContainer = document.querySelector('.filter-buttons');
+            const accordionItems = document.querySelectorAll('#accordion-container .accordion-item');
+
+            filterButtonsContainer.addEventListener('click', (e) => {
+                if (!e.target.matches('.filter-btn')) return;
+
+                filterButtonsContainer.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+
+                const filter = e.target.dataset.filter;
+
+                accordionItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // --- 4. 스크롤 및 테마 관련 ---
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            });
+
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.textContent = '☀️';
+            }
+
+            // --- 5. TOP 버튼 ---
+            const toTopBtn = document.getElementById('to-top-btn');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    toTopBtn.classList.add('show');
+                } else {
+                    toTopBtn.classList.remove('show');
+                }
+            });
+            toTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+
+</body>
+</html>
